@@ -1,26 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 namespace owner_draw_month_calendar
 {
     public partial class DecemberOnlyCalendar : UserControl, INotifyPropertyChanged
     {
-        public DecemberOnlyCalendar() => InitializeComponent();
-        protected override void OnLoad(EventArgs e)
+        public DecemberOnlyCalendar()
         {
-            base.OnLoad(e);
+            InitializeComponent();
             buttonYearDown.Click += (sender, e) => Year--;
-            buttonYearUp.Click += (sender, e) => Year++; 
+            buttonYearUp.Click += (sender, e) => Year++;
             labelYear.DataBindings.Add("Text", this, "FormattedYear", true, DataSourceUpdateMode.OnPropertyChanged);
             for (int col = 0; col < 7; col++) for (int row = 3; row < 9; row++)
                 {
@@ -32,15 +21,80 @@ namespace owner_draw_month_calendar
                         BackColor = Color.White,
                         Dock = DockStyle.Fill,
                     };
+                    label.Click += LabelClicked;
+                    label.Paint += (sender, e) =>
+                    {
+                        if(
+                            SelectedDay is DateTime date &&     
+                            sender is Label label && 
+                            int.TryParse(label.Text, out int day) &&
+                            date.Day == day)
+                        {
+                            var rect = new Rectangle(new Point(), e.ClipRectangle.Size);
+                            rect.Inflate(-5, -5);
+                            e.Graphics.DrawRectangle(Pens.Red, rect);
+                        }
+                    };
                     tableLayoutPanel.Controls.Add(label, col, row);
                 }
             Year = DateTime.Today.Year;
         }
 
+        private void OnYearChanged()
+        {
+            Clear();
+            var theFirst = new DateTime(Year, 12, 1);
+            var dayOfWeek = theFirst.DayOfWeek;
+            var dayIterator = theFirst;
+            int row = 3;
+            int col = (int)dayOfWeek;
+            while (dayIterator.Month == 12)
+            {
+                if (tableLayoutPanel.GetControlFromPosition(col, row) is Label label)
+                {
+                    label.Text = $"{dayIterator.Day}";
+                    col = (col + 1) % 7;
+                    if (col == 0) row++;
+                }
+                dayIterator = dayIterator + TimeSpan.FromDays(1);
+            };
+        }
+        private void Clear()
+        {
+            SelectedDay = null;
+            for (int col = 0; col < 7; col++) for (int row = 2; row < 9; row++)
+                {
+                    if (tableLayoutPanel.GetControlFromPosition(col, row) is Label label)
+                        label.Text = string.Empty;
+                }
+        }
+
+        private void LabelClicked(object? sender, EventArgs e)
+        {
+            if(sender is Label label && int.TryParse(label.Text, out var day)) 
+            {
+                SelectedDay = new DateTime(Year, 12, day);
+            }
+        }
+
+        public DateTime? SelectedDay
+        {
+            get => _selectedDay;
+            set
+            {
+                if (!Equals(_selectedDay, value))
+                {
+                    _selectedDay = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        DateTime? _selectedDay = default;
+
         public int Year
         {
             get => _year;
-            set
+            private set
             {
                 if (!Equals(_year, value))
                 {
@@ -56,44 +110,14 @@ namespace owner_draw_month_calendar
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            if(propertyName ==  nameof(Year)) 
+            switch (propertyName)
             {
-                OnYearChanged();
-                OnPropertyChanged(nameof(FormattedYear));
+                case nameof(Year):
+                    OnYearChanged();
+                    OnPropertyChanged(nameof(FormattedYear));
+                    break;
             }
-        }
-
-        private void OnYearChanged()
-        {
-            Clear();
-            var theFirst = new DateTime(Year, 12, 1);
-            var today = theFirst;
-            var dow = theFirst.DayOfWeek;
-            int row = 3;
-            int col = (int)dow;
-            while(today.Month == 12)
-            {
-                if(tableLayoutPanel.GetControlFromPosition(col, row) is Label label)
-                {
-                    label.Text = $"{today.Day}";
-                    col = (col + 1) % 7;
-                    if (col == 0) row++;
-                }
-                else
-                {
-
-                }
-                today = today + TimeSpan.FromDays(1);
-            };
-        }
-        private void Clear()
-        {
-
-            for (int col = 0; col < 7; col++) for (int row = 2; row < 9; row++)
-                {
-                    if(tableLayoutPanel.GetControlFromPosition(col,row) is Label label) 
-                        label.Text = string.Empty;
-                }
+            Refresh();
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

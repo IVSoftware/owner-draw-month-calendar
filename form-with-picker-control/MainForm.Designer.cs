@@ -28,34 +28,43 @@
         /// </summary>
         private void InitializeComponent()
         {
-            decemberOnlyCalendar = new DecemberOnlyCalendar();
+            pickerDecemberOnly = new DecemberOnlyPicker();
+            label1 = new Label();
             SuspendLayout();
             // 
-            // decemberOnlyCalendar
+            // pickerDecemberOnly
             // 
-            decemberOnlyCalendar.BackColor = Color.Azure;
-            decemberOnlyCalendar.Dock = DockStyle.Fill;
-            decemberOnlyCalendar.Font = new Font("Segoe UI", 9F);
-            decemberOnlyCalendar.Location = new Point(10, 10);
-            decemberOnlyCalendar.Name = "decemberOnlyCalendar";
-            decemberOnlyCalendar.SelectedDay = null;
-            decemberOnlyCalendar.Size = new Size(558, 324);
-            decemberOnlyCalendar.TabIndex = 0;
+            pickerDecemberOnly.BackColor = Color.White;
+            pickerDecemberOnly.Location = new Point(98, 30);
+            pickerDecemberOnly.Name = "pickerDecemberOnly";
+            pickerDecemberOnly.Size = new Size(211, 35);
+            pickerDecemberOnly.TabIndex = 1;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(13, 36);
+            label1.Name = "label1";
+            label1.Size = new Size(58, 25);
+            label1.TabIndex = 2;
+            label1.Text = "Picker";
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(578, 344);
-            Controls.Add(decemberOnlyCalendar);
+            ClientSize = new Size(478, 244);
+            Controls.Add(label1);
+            Controls.Add(pickerDecemberOnly);
             Name = "MainForm";
             Padding = new Padding(10);
             Text = "Main Form";
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
-
-        private DecemberOnlyCalendar decemberOnlyCalendar;
+        private DecemberOnlyPicker pickerDecemberOnly;
+        private Label label1;
     }
 }

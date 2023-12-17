@@ -189,7 +189,7 @@
             buttonYearUp.Name = "buttonYearUp";
             buttonYearUp.Size = new Size(24, 38);
             buttonYearUp.TabIndex = 1;
-            buttonYearUp.Text = ">";
+            buttonYearUp.Text = "ᐅ";
             // 
             // buttonYearDown
             // 
@@ -199,7 +199,7 @@
             buttonYearDown.Name = "buttonYearDown";
             buttonYearDown.Size = new Size(24, 38);
             buttonYearDown.TabIndex = 0;
-            buttonYearDown.Text = "<";
+            buttonYearDown.Text = "ᐊ";
             // 
             // labelYear
             // 
