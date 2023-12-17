@@ -1,12 +1,15 @@
 # Owner Draw Month Calendar
 
-The functionality that you're describing is a significant departure from the normal functioning of a `MonthCalendar`. I see there is a good answer already if your strategy is to disable the functionality that you understandably deem "pointless" by intercepting `Win32` messages. The reason for this post is to offer a perspective that it's fairly straightforward to make your own control in the first place. This way you can make it do _exactly_ what you want in terms of style and function. 
+The functionality that you're describing is a significant departure from the normal functioning of a `MonthCalendar`. Olivier's answer does a terrific job of explaining how to intercept `Win32` messages if your strategy is to disable the functionality that you understandably deem "pointless" using this approach. 
+
+The reason I'm posting another answer is to offer a perspective that it's fairly straightforward to make your own control in the first place. This way you can make it do _exactly_ what you want in terms of style and function. 
 
 If you're open to 'not' basing your solution on `MonthControl`, you might want to experiment with using `TableLayoutPanel controls to simplify making the grids you need.
 
-[Placeholder]
+[![designer][1]][1]
 
-This layout can be provisioned with blank labels in the constructor of the `UserControl`.
+
+This layout can be provisioned with _blank_ labels in the constructor of the `UserControl` as a canvas.
 
 ```
 public DecemberOnlyCalendar()
@@ -47,7 +50,11 @@ public DecemberOnlyCalendar()
 
 ___
 
-In this minimal proof of concept, the left and right arrows decrement or increment the Year property, showing the previous/next December only. Changes are handled by first clearing all the numbers from all the days and then rebuilding the month of December based on the day of the week that `theFirst` falls on. 
+In this minimal proof of concept, the left and right arrows decrement or increment the Year property, showing the previous/next December only. 
+
+[![runtime][2]][2]
+
+Changes are handled by first clearing all the numbers from all the days and then rebuilding the month of December based on the day of the week that `theFirst` falls on. 
 
 ```
 private void OnYearChanged()
