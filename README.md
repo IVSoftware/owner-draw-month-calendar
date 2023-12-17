@@ -1,15 +1,15 @@
 # Owner Draw Month Calendar
 
-The functionality that you're describing is a significant departure from the normal functioning of a `MonthCalendar`. Olivier's answer does a terrific job of explaining how to intercept `Win32` messages if your strategy is to disable the functionality that you understandably deem "pointless" using this approach. 
+The functionality that you're describing is a significant departure from the normal functioning of a `MonthCalendar`, and Olivier's answer does a terrific job of explaining how to intercept `Win32` messages if your strategy is to disable the functionality that you understandably deem "pointless" using this approach. 
 
 The reason I'm posting another answer is to offer a perspective that it's fairly straightforward to make your own control in the first place. This way you can make it do _exactly_ what you want in terms of style and function. 
 
-If you're open to 'not' basing your solution on `MonthControl`, you might want to experiment with using `TableLayoutPanel controls to simplify making the grids you need.
+If you're open to 'not' basing your solution on `MonthControl`, you might want to experiment with using `TableLayoutPanel` controls to simplify making the grids you need.
 
 [![designer][1]][1]
 
 
-This layout can be provisioned with _blank_ labels in the constructor of the `UserControl` as a canvas.
+The grid will need to be provisioned with _blank_ labels as a canvas, but it's way easier to do this programmatically in the constructor of the `UserControl` than to do it by hand in the designer.
 
 ```
 public DecemberOnlyCalendar()
@@ -86,3 +86,12 @@ private void Clear()
         }
 }
 ```
+
+There's a GitHub repo I made while testing the answer that you can browse or [clone](https://github.com/IVSoftware/owner-draw-month-calendar.git). It also shows how to make a picker version that utilizes the same control.
+
+[![picker version][3]][3]
+
+
+  [1]: https://i.stack.imgur.com/nYNlV.png
+  [2]: https://i.stack.imgur.com/GFnuv.png
+  [3]: https://i.stack.imgur.com/twZ5F.png
