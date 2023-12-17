@@ -39,7 +39,53 @@ namespace owner_draw_month_calendar
                 }
             Year = DateTime.Today.Year;
         }
-
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            if (_origTextHeight == -1)
+            {
+                if (tableLayoutPanel.GetControlFromPosition(0, 3) is Label golden)
+                {
+                    if (_origTextHeight == -1)
+                    {
+                        SizeF textSize = TextRenderer.MeasureText("00", golden.Font);
+                        _origTextHeight = textSize.Height;
+                        _origRatio = _origTextHeight / golden.Height;
+                        foreach (var label in tableLayoutPanel.Controls.OfType<Label>())
+                        {
+                            label.Resize += (sender, e) =>
+                            {
+                                var targetHeight = label.Height * _origRatio;
+                                float currentHeight = label.Font.Height;
+                                float measHeight;
+                                while(true)
+                                {
+                                    using (Graphics g = label.CreateGraphics())
+                                    {
+                                        measHeight = g.MeasureString("00", label.Font).Height;
+                                        using(var font = new Font(label.Font.FontFamily, label.Font.Size))
+                                        {
+                                            measHeight = g.MeasureString("00", font).Height;
+                                        }
+                                    }
+                                    switch (measHeight.CompareTo(targetHeight))
+                                    {
+                                        case -1:
+                                            break;
+                                        case 0:
+                                            break;
+                                        case 1:
+                                            break;
+                                    }
+                                }
+                            };
+                        }
+                    }
+                }
+            }
+        }
+        float _origTextHeight = -1;
+        float _origRatio = 0;
         private void OnYearChanged()
         {
             Clear();
