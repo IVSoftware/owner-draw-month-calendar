@@ -80,84 +80,84 @@
             // 
             // label7
             // 
-            label7.Anchor = AnchorStyles.None;
+            label7.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             label7.Font = new Font("Segoe UI", 8F);
-            label7.Location = new Point(486, 39);
+            label7.Location = new Point(486, 38);
             label7.Margin = new Padding(0);
             label7.Name = "label7";
-            label7.Size = new Size(86, 36);
+            label7.Size = new Size(86, 38);
             label7.TabIndex = 9;
             label7.Text = "S";
             label7.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label6
             // 
-            label6.Anchor = AnchorStyles.None;
+            label6.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             label6.Font = new Font("Segoe UI", 8F);
-            label6.Location = new Point(405, 39);
+            label6.Location = new Point(405, 38);
             label6.Margin = new Padding(0);
             label6.Name = "label6";
-            label6.Size = new Size(81, 36);
+            label6.Size = new Size(81, 38);
             label6.TabIndex = 8;
             label6.Text = "F";
             label6.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label5
             // 
-            label5.Anchor = AnchorStyles.None;
+            label5.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             label5.Font = new Font("Segoe UI", 8F);
-            label5.Location = new Point(324, 39);
+            label5.Location = new Point(324, 38);
             label5.Margin = new Padding(0);
             label5.Name = "label5";
-            label5.Size = new Size(81, 36);
+            label5.Size = new Size(81, 38);
             label5.TabIndex = 7;
             label5.Text = "T";
             label5.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label4
             // 
-            label4.Anchor = AnchorStyles.None;
+            label4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             label4.Font = new Font("Segoe UI", 8F);
-            label4.Location = new Point(243, 39);
+            label4.Location = new Point(243, 38);
             label4.Margin = new Padding(0);
             label4.Name = "label4";
-            label4.Size = new Size(81, 36);
+            label4.Size = new Size(81, 38);
             label4.TabIndex = 6;
             label4.Text = "W";
             label4.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label3
             // 
-            label3.Anchor = AnchorStyles.None;
+            label3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             label3.Font = new Font("Segoe UI", 8F);
-            label3.Location = new Point(162, 39);
+            label3.Location = new Point(162, 38);
             label3.Margin = new Padding(0);
             label3.Name = "label3";
-            label3.Size = new Size(81, 36);
+            label3.Size = new Size(81, 38);
             label3.TabIndex = 5;
             label3.Text = "T";
             label3.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label2
             // 
-            label2.Anchor = AnchorStyles.None;
+            label2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             label2.Font = new Font("Segoe UI", 8F);
-            label2.Location = new Point(81, 39);
+            label2.Location = new Point(81, 38);
             label2.Margin = new Padding(0);
             label2.Name = "label2";
-            label2.Size = new Size(81, 36);
+            label2.Size = new Size(81, 38);
             label2.TabIndex = 4;
             label2.Text = "M";
             label2.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label1
             // 
-            label1.Anchor = AnchorStyles.None;
+            label1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             label1.Font = new Font("Segoe UI", 8F);
-            label1.Location = new Point(0, 39);
+            label1.Location = new Point(0, 38);
             label1.Margin = new Padding(0);
             label1.Name = "label1";
-            label1.Size = new Size(81, 36);
+            label1.Size = new Size(81, 38);
             label1.TabIndex = 3;
             label1.Text = "S";
             label1.TextAlign = ContentAlignment.MiddleCenter;
@@ -183,33 +183,36 @@
             // 
             // buttonYearUp
             // 
+            buttonYearUp.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             buttonYearUp.AutoSize = true;
-            buttonYearUp.Dock = DockStyle.Right;
-            buttonYearUp.Location = new Point(545, 0);
+            buttonYearUp.Location = new Point(543, 0);
             buttonYearUp.Name = "buttonYearUp";
-            buttonYearUp.Size = new Size(24, 38);
+            buttonYearUp.Size = new Size(26, 38);
             buttonYearUp.TabIndex = 1;
             buttonYearUp.Text = "ᐅ";
+            buttonYearUp.TextAlign = ContentAlignment.MiddleRight;
             // 
             // buttonYearDown
             // 
+            buttonYearDown.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             buttonYearDown.AutoSize = true;
-            buttonYearDown.Dock = DockStyle.Left;
             buttonYearDown.Location = new Point(3, 0);
             buttonYearDown.Name = "buttonYearDown";
-            buttonYearDown.Size = new Size(24, 38);
+            buttonYearDown.Size = new Size(26, 38);
             buttonYearDown.TabIndex = 0;
             buttonYearDown.Text = "ᐊ";
+            buttonYearDown.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // labelYear
             // 
-            labelYear.Anchor = AnchorStyles.None;
+            labelYear.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             labelYear.AutoSize = true;
-            labelYear.Location = new Point(216, 6);
+            labelYear.Location = new Point(98, 0);
             labelYear.Name = "labelYear";
-            labelYear.Size = new Size(138, 25);
+            labelYear.Size = new Size(375, 38);
             labelYear.TabIndex = 2;
             labelYear.Text = "December 2023";
+            labelYear.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // DecemberOnlyCalendar
             // 
