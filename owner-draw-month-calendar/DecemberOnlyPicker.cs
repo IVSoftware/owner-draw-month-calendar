@@ -36,13 +36,13 @@ namespace owner_draw_month_calendar
         }
         readonly PickerForm picker = new PickerForm();
     }
-    class PickerForm : Form, INotifyPropertyChanged
+    class PickerForm : Form, INotifyPropertyChanged, IMessageFilter
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-
         public PickerForm()
         {
             StartPosition = FormStartPosition.Manual;
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
             ClientSize = new Size(400, 250);
             Controls.Add(Calendar);
             Calendar.PropertyChanged += (sender, e) =>
@@ -55,10 +55,22 @@ namespace owner_draw_month_calendar
                     }
                 }
             };
+            Application.AddMessageFilter(this);
+            Disposed += (sender, e) => Application.RemoveMessageFilter(this);
         }
         public DecemberOnlyCalendar Calendar { get; } = new DecemberOnlyCalendar
         {
             Dock = DockStyle.Fill,
         };
+        const int WM_NCLBUTTONDOWN = 0xA1;
+        const int HTCAPTION = 0x2;
+        public bool PreFilterMessage(ref Message m)
+        {
+            if (m.Msg == WM_NCLBUTTONDOWN && m.WParam.ToInt32() == HTCAPTION)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
