@@ -56,64 +56,72 @@ namespace owner_draw_month_calendar
 
                         foreach (var label in tableLayoutPanel.Controls.OfType<Label>())
                         {
-                            label.Resize += (sender, e) =>
-                            {
-                                var targetHeight = _origRatio * label.Height;
-                                float currentSize = label.Font.Size;
-                                float currentHeight = label.Font.Height;
-                                float measHeight;
-                                float maxSize, minSize = 4f;
+                            label.Resize += (sender, e) => LabelResize((Label)sender);
+                        }
 
-                                using (Graphics g = label.CreateGraphics())
-                                {
-                                    measHeight = g.MeasureString("00", label.Font).Height; // Unused. For baseline Reference only.
-                                    while (true)
-                                    {
-                                        using (var font = new Font(label.Font.FontFamily, currentSize))
-                                        {
-                                            measHeight = g.MeasureString("00", font).Height;
-                                        }
-                                        switch (measHeight.CompareTo(targetHeight))
-                                        {
-                                            case 0:
-                                            case -1:
-                                                currentSize += 10;
-                                                break;
-                                            case 1:
-                                                maxSize = currentSize;
-                                                goto breakFromInner;
-                                        }
-                                    }
-                                breakFromInner:
-                                    for (int i = 0; i< 10; i++)
-                                    {
-                                        using (var font = new Font(label.Font.FontFamily, currentSize))
-                                        {
-                                            measHeight = g.MeasureString("00", font).Height;
-                                        }
-                                        switch (measHeight.CompareTo(targetHeight))
-                                        {
-                                            case 0:
-                                                goto breakFromInner2;
-                                            case -1:
-                                                minSize = currentSize;
-                                                currentSize = (currentSize + maxSize) / 2;
-                                                break;
-                                            case 1:
-                                                maxSize = currentSize;
-                                                currentSize = (currentSize + minSize) / 2;
-                                                break;
-                                        }
-                                    }
-                                breakFromInner2:
-                                    label.Font = new Font(label.Font.FontFamily, currentSize);
-                                }
-                            };
+                        foreach (var label in tableLayoutPanelHeader.Controls.OfType<Label>())
+                        {
+                            label.Resize += (sender, e) => LabelResize((Label)sender);
                         }
                     }
                 }
             }
         }
+
+        private void LabelResize(Label label)
+        {
+            var targetHeight = _origRatio * label.Height;
+            float currentSize = label.Font.Size;
+            float currentHeight = label.Font.Height;
+            float measHeight;
+            float maxSize, minSize = 4f;
+
+            using (Graphics g = label.CreateGraphics())
+            {
+                measHeight = g.MeasureString("00", label.Font).Height; // Unused. For baseline Reference only.
+                while (true)
+                {
+                    using (var font = new Font(label.Font.FontFamily, currentSize))
+                    {
+                        measHeight = g.MeasureString("00", font).Height;
+                    }
+                    switch (measHeight.CompareTo(targetHeight))
+                    {
+                        case 0:
+                        case -1:
+                            currentSize += 10;
+                            break;
+                        case 1:
+                            maxSize = currentSize;
+                            goto breakFromInner;
+                    }
+                }
+                breakFromInner:
+                for (int i = 0; i < 10; i++)
+                {
+                    using (var font = new Font(label.Font.FontFamily, currentSize))
+                    {
+                        measHeight = g.MeasureString("00", font).Height;
+                    }
+                    switch (measHeight.CompareTo(targetHeight))
+                    {
+                        case 0:
+                            goto breakFromInner2;
+                        case -1:
+                            minSize = currentSize;
+                            currentSize = (currentSize + maxSize) / 2;
+                            break;
+                        case 1:
+                            maxSize = currentSize;
+                            currentSize = (currentSize + minSize) / 2;
+                            break;
+                    }
+                }
+                breakFromInner2:
+                label.Font = new Font(label.Font.FontFamily, currentSize);
+            }
+        }
+
         float _origTextHeight = -1;
         float _origRatio = 0;
         private void OnYearChanged()
