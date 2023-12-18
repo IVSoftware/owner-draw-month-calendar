@@ -19,7 +19,7 @@ namespace owner_draw_month_calendar
                         Padding = new Padding(0),
                         Margin = new Padding(0),
                         BackColor = Color.White,
-                        Dock = DockStyle.Fill,
+                        Anchor = (AnchorStyles)0xF,
                     };
                     label.Click += LabelClicked;
                     label.Paint += (sender, e) =>
@@ -48,35 +48,65 @@ namespace owner_draw_month_calendar
                 {
                     if (_origTextHeight == -1)
                     {
-                        SizeF textSize = TextRenderer.MeasureText("00", golden.Font);
-                        _origTextHeight = textSize.Height;
-                        _origRatio = _origTextHeight / golden.Height;
+                        using (Graphics g = golden.CreateGraphics())
+                        {
+                            _origTextHeight = g.MeasureString("00", golden.Font).Height;
+                            _origRatio = _origTextHeight / golden.Height;
+                        }
+
                         foreach (var label in tableLayoutPanel.Controls.OfType<Label>())
                         {
                             label.Resize += (sender, e) =>
                             {
-                                var targetHeight = label.Height * _origRatio;
+                                var targetHeight = _origRatio * label.Height;
+                                float currentSize = label.Font.Size;
                                 float currentHeight = label.Font.Height;
                                 float measHeight;
-                                while(true)
+                                float maxSize, minSize = 4f;
+
+                                using (Graphics g = label.CreateGraphics())
                                 {
-                                    using (Graphics g = label.CreateGraphics())
+                                    measHeight = g.MeasureString("00", label.Font).Height; // Unused. For baseline Reference only.
+                                    while (true)
                                     {
-                                        measHeight = g.MeasureString("00", label.Font).Height;
-                                        using(var font = new Font(label.Font.FontFamily, label.Font.Size))
+                                        using (var font = new Font(label.Font.FontFamily, currentSize))
                                         {
                                             measHeight = g.MeasureString("00", font).Height;
                                         }
+                                        switch (measHeight.CompareTo(targetHeight))
+                                        {
+                                            case 0:
+                                            case -1:
+                                                currentSize += 10;
+                                                break;
+                                            case 1:
+                                                maxSize = currentSize;
+                                                goto breakFromInner;
+                                        }
                                     }
-                                    switch (measHeight.CompareTo(targetHeight))
+                                breakFromInner:
+                                    for (int i = 0; i< 10; i++)
                                     {
-                                        case -1:
-                                            break;
-                                        case 0:
-                                            break;
-                                        case 1:
-                                            break;
+                                        using (var font = new Font(label.Font.FontFamily, currentSize))
+                                        {
+                                            measHeight = g.MeasureString("00", font).Height;
+                                        }
+                                        switch (measHeight.CompareTo(targetHeight))
+                                        {
+                                            case 0:
+                                                goto breakFromInner2;
+                                            case -1:
+                                                minSize = currentSize;
+                                                currentSize = (currentSize + maxSize) / 2;
+                                                break;
+                                            case 1:
+                                                maxSize = currentSize;
+                                                currentSize = (currentSize + minSize) / 2;
+                                                break;
+                                        }
                                     }
+                                breakFromInner2:
+                                    label.Font = new Font(label.Font.FontFamily, currentSize);
                                 }
                             };
                         }
